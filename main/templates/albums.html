@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-3">
+    <h4 class="my-3">All Albums <span class="badge badge-info">{{albums.count}}</span></h4>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                {% for album in albums %}
+                    <div class="col-sm-4">
+                        <div class="card mb-3">
+                            <a href="/album/{{album.id}}"><img src="media/{{album.image}}" class="card-img-top" alt="{{album.name}}" /></a>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/album/{{album.id}}">{{album.name}}</a></h5>
+                                <hr/>
+                                <a href="/album/{{album.id}}" class="btn btn-danger btn-sm">Songs</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

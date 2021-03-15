@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-3">
+    {% if request.GET.q %}
+    <h4 class="my-3"><span class="text-muted">Search results:</span> {{request.GET.q}}</h4>
+    {% else %}
+    <h4 class="my-3">Latest Songs</h4>
+    {% endif %}
+    <div class="row">
+        {% for song in songs %}
+        <div class="col-sm-4 mb-4">
+            <div class="card shadow border-secondary">
+                <audio id="song{{song.id}}" class="song" data-song="{{song.id}}">
+                    <source src="media/{{song.song_src}}" type="audio/mpeg"></source>
+                </audio>
+                <h6 class="card-header">{{song.title}}
+                </h6>
+                <div class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Genre: <a href="/genre/{{song.genre.id}}">{{song.genre}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        Album: <a href="/album/{{song.album.id}}">{{song.album}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        Artists: 
+                        {% for artist in song.artist.all %}
+                            {% if forloop.last %}
+                            <a href="/artist/{{artist.id}}">{{artist.full_name}}</a>
+                            {% else %}
+                            <a href="/artist/{{artist.id}}">{{artist.full_name}}</a>,
+                            {% endif %}
+                        {% endfor %}
+                    </li>
+                </div>
+                <div class="card-footer">
+                    <audio id="song{{song.id}}" class="song" preload="none" controls>
+                        <source src="/media/{{song.song_src}}" type="audio/mpeg"></source>
+                        Your browser does not support the audio!
+                    </audio>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div> 
+</div>
+{% endblock %}
